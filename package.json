@@ -1,0 +1,27 @@
+{
+  "name": "kbhuates",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TU_USUARIO/TU_REPOSITORIO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TU_USUARIO/TU_REPOSITORIO/issues"
+  },
+  "homepage": "https://github.com/TU_USUARIO/TU_REPOSITORIO#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-telegram-bot-api": "^0.67.0",
+    "sqlite3": "^5.1.7"
+  }
+}

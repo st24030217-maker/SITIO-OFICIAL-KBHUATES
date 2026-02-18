@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KB HUATES - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-color: #0a0a0a;
+        color: white;
+        font-family: sans-serif;
+      }
+      .pedido-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="p-5">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-2xl font-bold text-orange-500">ADMIN HUATES</h1>
+      <div id="status" class="text-xs font-mono text-red-500 italic">
+        Desconectado
+      </div>
+    </div>
+
+    <div id="lista" class="space-y-4"></div>
+
+    <script>
+      const API = "/api/pedidos";
+
+      async function refresh() {
+        try {
+          const res = await fetch(API);
+          const data = await res.json();
+          document.getElementById("status").innerText = "• ONLINE";
+          document
+            .getElementById("status")
+            .classList.replace("text-red-500", "text-green-500");
+
+          document.getElementById("lista").innerHTML = data
+            .map(
+              (p) => `
+                    <div class="pedido-card p-4 rounded-2xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-[10px] text-orange-400 font-bold mb-1">ORDEN #${p.id}</div>
+                                <div class="font-bold">${p.detalle}</div>
+                                <div class="text-sm opacity-60">📍 ${p.ubicacion}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xl font-black">$${p.total}</div>
+                                <button onclick="done(${p.id})" class="mt-2 text-[10px] bg-red-500/20 text-red-400 px-3 py-1 rounded-full">BORRAR</button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+            )
+            .join("");
+        } catch (e) {
+          document.getElementById("status").innerText = "• SIN CONEXIÓN";
+          document
+            .getElementById("status")
+            .classList.replace("text-green-500", "text-red-500");
+        }
+      }
+
+      async function done(id) {
+        await fetch(`${API}/${id}`, { method: "DELETE" });
+        refresh();
+      }
+
+      setInterval(refresh, 3000);
+      refresh();
+    </script>
+  </body>
+</html>
